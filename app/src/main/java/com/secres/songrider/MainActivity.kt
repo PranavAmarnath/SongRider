@@ -1,76 +1,49 @@
 package com.secres.songrider
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import com.secres.songrider.databinding.ActivityMainBinding
 
+class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ItemClickListener {
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    var adapter: RecyclerViewAdapter? = null
+    var songsList: ArrayList<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        val songsList = ArrayList<String>()
+        songsList = ArrayList()
+        songsList?.add("Life is a Highway")
+        songsList?.add("Star Wars")
+        songsList?.add("Mission Impossible")
 
-        songsList.add("Life is a Highway")
-        songsList.add("Star Wars")
-        songsList.add("Mission Impossible")
+        val recyclerView = findViewById<View>(R.id.rvSongs) as RecyclerView
+        recyclerView.setHasFixedSize(true)
+        adapter = RecyclerViewAdapter(songsList!!)
+        adapter?.setClickListener(this)
+        recyclerView.adapter = adapter
 
-        val adapter = RecyclerViewAdapter(songsList)
-        val myView = findViewById<View>(R.id.recyclerview) as RecyclerView
-        myView.setHasFixedSize(true)
-        myView.adapter = adapter
         val llm = LinearLayoutManager(this)
         llm.orientation = LinearLayoutManager.VERTICAL
-        myView.layoutManager = llm
+        recyclerView.layoutManager = llm
+        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, llm.orientation)
+        recyclerView.addItemDecoration(dividerItemDecoration)
+    }
 
-        setSupportActionBar(binding.toolbar)
-
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+    override fun onItemClick(view: View?, position: Int) {
+        if(position == 0) {
+            val intent = Intent(this, SongActivity::class.java).apply {
+                putExtra("com.secres.songrider.MESSAGE", songsList!![position])
+            }
+            startActivity(intent)
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }
 }
