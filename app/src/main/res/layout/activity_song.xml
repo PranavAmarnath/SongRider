@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
+    android:paddingBottom="60dp"
     tools:context=".SongActivity">
 
     <Button
-        android:id="@+id/forwardButton"
-        android:text="\uFE65\uFE65"
+        android:id="@+id/rewindButton"
+        android:text="\uFE64\uFE64"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -18,36 +20,37 @@
         android:text="\uFE34\uFE34"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/forwardButton"
+        android:layout_toEndOf="@+id/rewindButton"
         android:layout_alignParentBottom="true" />
 
     <Button
         android:id="@+id/playButton"
-        android:text="\uFE65"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/pauseButton"
-        android:layout_toEndOf="@+id/pauseButton" />
+        android:layout_toEndOf="@+id/pauseButton"
+        android:text="\uFE65" />
 
     <Button
-        android:id="@+id/rewindButton"
-        android:text="\uFE64\uFE64"
+        android:id="@+id/forwardButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/playButton"
-        android:layout_toEndOf="@+id/playButton" />
+        android:layout_toEndOf="@id/playButton"
+        android:text="\uFE65\uFE65" />
 
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/rewindButton"
         android:layout_alignStart="@+id/pauseButton"
         android:layout_alignEnd="@+id/playButton"
-        android:layout_above="@+id/forwardButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="30dp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/beginTime"
         android:text="Small Text"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="wrap_content"
@@ -55,22 +58,22 @@
         android:layout_above="@+id/seekBar" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/endTime"
         android:text="Small Text"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/seekBar"
-        android:layout_alignEnd="@+id/rewindButton" />
+        android:layout_alignEnd="@+id/forwardButton" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textAlignment="center"
+    <LinearLayout
+        android:id="@+id/songNameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/seekBar"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@id/seekBar"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
 
 </RelativeLayout>

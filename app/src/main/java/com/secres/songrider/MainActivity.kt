@@ -11,22 +11,22 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ItemClickListener {
 
-    var adapter: RecyclerViewAdapter? = null
-    var songsList: ArrayList<String>? = null
+    private var adapter: RecyclerViewAdapter? = null
+    private var songs: LinkedHashMap<String, String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-        songsList = ArrayList()
-        songsList?.add("Life is a Highway")
-        songsList?.add("Star Wars")
-        songsList?.add("Mission Impossible")
+        songs = LinkedHashMap()
+        songs?.put("Top Gun", "http://www.moviewavs.com/0053148414/MP3S/Movies/Top_Gun/youvlost.mp3")
+        songs?.put("Star Wars", "http://www.moviewavs.com/0053148414/MP3S/Movies/Star_Wars/starwars.mp3")
+        songs?.put("Life is a Highway", "http://www.moviewavs.com/0053148414/MP3S/Movies/Cars/lifeisahighway.mp3")
 
         val recyclerView = findViewById<View>(R.id.rvSongs) as RecyclerView
         recyclerView.setHasFixedSize(true)
-        adapter = RecyclerViewAdapter(songsList!!)
+        adapter = RecyclerViewAdapter(songs!!)
         adapter?.setClickListener(this)
         recyclerView.adapter = adapter
 
@@ -38,12 +38,11 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ItemClickListener 
     }
 
     override fun onItemClick(view: View?, position: Int) {
-        if(position == 0) {
-            val intent = Intent(this, SongActivity::class.java).apply {
-                putExtra("com.secres.songrider.MESSAGE", songsList!![position])
-            }
-            startActivity(intent)
+        val intent = Intent(this, SongActivity::class.java).apply {
+            putExtra("com.secres.songrider.MESSAGE_1", songs?.keys?.toList()?.get(position))
+            putExtra("com.secres.songrider.MESSAGE_2", songs?.get(songs?.keys?.toList()?.get(position)))
         }
+        startActivity(intent)
     }
 
 }

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerViewAdapter(var songs: ArrayList<String>) :
+class RecyclerViewAdapter(var songs: LinkedHashMap<String, String>) :
     RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
 
     var mClickListener: ItemClickListener? = null
@@ -34,7 +34,7 @@ class RecyclerViewAdapter(var songs: ArrayList<String>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.myTextView.text = songs[position]
+        holder.myTextView.text = getItem(position)
     }
 
     // total number of rows
@@ -42,7 +42,7 @@ class RecyclerViewAdapter(var songs: ArrayList<String>) :
 
     // convenience method for getting data at click position
     fun getItem(id: Int): String {
-        return songs[id]
+        return songs.keys.toList()[id]
     }
 
     // allows clicks events to be caught
